@@ -14,6 +14,13 @@ def run_ytchan(args):
                           intents=discord.Intents.all())
 
     client.add_cog(YTChan(client))
+
+    @client.event
+    async def on_ready():
+        print("="*10)
+        print("Logged in as:\n{0.user.name}\n{0.user.id}".format(client))
+        print("="*10)
+
     try:
         client.run(args.token)
     except Exception as e:
