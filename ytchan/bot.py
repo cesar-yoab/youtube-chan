@@ -3,7 +3,6 @@ import asyncio
 from concurrent.futures import ProcessPoolExecutor
 from discord.ext import commands
 from ytqueue import YTQueue
-import youtube_dl
 
 FFMPEG_OPTIONS = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
@@ -26,6 +25,7 @@ class YTChan(commands.Cog):
         # Make sure the voice channel is not empty
         if ctx.author.voice is None:
             await ctx.send(f"> {OUTPUT_EMOJIS['not_in_vc']} **You need to be in a voice channel before playing any song.**")
+            return 
 
         # Join the voice channel or move to the correct voice channel
         voice_channel = ctx.author.voice.channel
@@ -34,7 +34,7 @@ class YTChan(commands.Cog):
         else:
             await ctx.voice_client.move_to(voice_channel)
 
-        vc = ctx.voice_client
+        self.vc = ctx.voice_client
         await ctx.send("> :mag_right: **Searching video...**")
         err, msg = self.Q.add(
             url, ctx.author.display_name, ctx.author.avatar_url)
