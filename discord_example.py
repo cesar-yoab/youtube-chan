@@ -138,4 +138,4 @@ async def on_ready():
     print('------')
 
 bot.add_cog(Music(bot))
-bot.run('OTA1NTA1OTc5NTIzNzk3MDQy.YYLEKQ.73TRsVauW2e7f2sftCSfemWor3s')
+bot.run('YOURTOKENHERE')
