@@ -1,6 +1,9 @@
 import discord
+import asyncio
+from concurrent.futures import ProcessPoolExecutor
 from discord.ext import commands
 from ytqueue import YTQueue
+import youtube_dl
 
 FFMPEG_OPTIONS = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
@@ -31,11 +34,13 @@ class YTChan(commands.Cog):
         else:
             await ctx.voice_client.move_to(voice_channel)
 
-        self.vc = ctx.voice_client
+        vc = ctx.voice_client
+        await ctx.send("> :mag_right: **Searching video...**")
         err, msg = self.Q.add(
             url, ctx.author.display_name, ctx.author.avatar_url)
+
         if err:
-            ctx.send(f"> {OUTPUT_EMOJIS['error']} Could not download video")
+            await ctx.send(f"> {OUTPUT_EMOJIS['error']} Could not download video")
             return
 
         if self.now_playing is None:
@@ -65,22 +70,23 @@ class YTChan(commands.Cog):
     async def skipto(self, ctx, song_index):
         pass
 
-    async def _play_next(self):
+    def _play_next(self):
         if self.Q.is_empty():
             self.now_playing = None
 
         song = self.Q.next()
         self.now_playing = song
-        source = await discord.FFmpegOpusAudio.from_probe(song['source'], **FFMPEG_OPTIONS)
+        source = discord.FFmpegPCMAudio(song['source'], **FFMPEG_OPTIONS)
         self.vc.play(source, after=self._play_next)
 
     async def _now_playing(self, ctx, msg):
         video_name = self.now_playing['title']
         embed = discord.Embed(title=f"Now playing: {video_name}",
+                              url="https://google.com",
                               color=discord.Color.blue())
 
         embed.set_author(
             name=self.now_playing['requestedBy'], icon_url=self.now_playing['requestedByAvatar'])
         embed.set_thumbnail(url=self.now_playing['thumbnail'])
 
-        await ctx.send(embed)
+        await ctx.send(embed=embed)

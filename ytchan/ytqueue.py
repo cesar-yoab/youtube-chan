@@ -27,18 +27,19 @@ class YTQueue:
             try:
                 info = ydl.extract_info(url, download=False)
                 is_playlist = False
-                if entries in info.keys():
+                if 'entries' in info.keys():
                     source = info['entries']
                     message = self._enqueue_playlist(
                         info['entries'], rby, rby_avatar)
                 else:
                     message = self._enqueue(info, rby, rby_avatar)
 
-                return
+                return False, message
 
             except Exception as e:
+                print(f"Exception: {e}")
                 print(f"Could not retrieve youtube video(s) correctly: {url}")
-                return False,  "**Error downloading video**"
+                return True,  "**Error downloading video**"
 
     def _enqueue(self, info, rby, rby_avatar):
         """Add song to the queue.
@@ -51,8 +52,8 @@ class YTQueue:
         """
         song = {'title': info['title'], 'source': info['formats'][0]['url'],
                 'thumbnail': info['thumbnail'], 'duration': info['duration'],
-                'requestedBy': rby, 'requestedByAvatar': rby_avatar}
-        self._Q.apend(song)
+                'requestedBy': rby, 'requestedByAvatar': rby_avatar, 'fullResult': info}
+        self._Q.append(song)
         return f"**{info['title']}** -  Added to queue."
 
     def _enqueue_playlist(self, entries, rby, rby_avatar):
