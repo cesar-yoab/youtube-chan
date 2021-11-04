@@ -86,3 +86,15 @@ class YTQueue:
             return None
 
         return self._Q.pop(0)
+    
+    def next_to(self, index):
+        if self.is_empty() or index >= len(self._Q):
+            return None
+        
+        ret = self._Q[index-1]
+        self._Q = self._Q[index-1::]
+        return ret
+
+    def clear(self):
+        """Clears the queue"""
+        self._Q = []

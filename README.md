@@ -27,7 +27,6 @@ python3 -m pip install -U discord.py[voice]
 
 # Install youtube-dl (need sudo permissions)
 pip install --upgrade youtube-dl
-
 ```
 
 # Resources
