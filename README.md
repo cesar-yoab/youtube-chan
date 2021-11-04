@@ -26,7 +26,7 @@ sudo apt install -y libffi-dev libnacl-dev python3-dev ffmpeg
 python3 -m pip install -U discord.py[voice]
 
 # Install youtube-dl (need sudo permissions)
-sudo -H pip install --upgrade youtube-dl
+pip install --upgrade youtube-dl
 
 ```
 
