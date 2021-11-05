@@ -21,7 +21,6 @@ class VoiceState:
 
         self._loop = False
         self._volume = 0.5
-        self.skip_votes = set()
 
         self.player = bot.loop.create_task(self.audio_player_task())
 
@@ -78,8 +77,6 @@ class VoiceState:
         self.next.set()
 
     def skip(self):
-        self.skip_votes.clear()
-
         if self.is_playing:
             self.voice.stop()
 
