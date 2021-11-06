@@ -23,13 +23,13 @@ The default prefix is `?` however you can set this when you start the bot.
 This bot runs primarily with three libraries `discord.py`, `youtube-dl` and `ffmpeg`. To install them on a -nix like box you can run the following commands:
 
 ```bash
-# Install dependencies for to use voice
+# Install dependencies for discord[voice] and ffmpeg
 sudo apt install -y libffi-dev libnacl-dev python3-dev ffmpeg
 
 # Install discord.py with voice support
 python3 -m pip install -U discord.py[voice]
 
-# Install youtube-dl (need sudo permissions)
+# Install youtube-dl
 pip install --upgrade youtube-dl
 ```
 
@@ -66,13 +66,20 @@ sudo apt-get install python3-pip
 python3 -m pip install --upgrade pip
 
 # Install venv
-sudo apt install pyton3-venv
+sudo apt install -y pyton3-venv libffi-dev libnacl-dev python3-dev ffmpeg
 
 # On a directory of your choosing clone the repo and set up a virtual env
 git clone https://github.com/cesar-yoab/youtube-chan && cd youtube-chan/
 python3 -m venv .venv
 source ./.venv/bin/activate
 python3 -m pip install --upgrade pip
+
+# Install python requirements
+# Install discord.py with voice support
+python3 -m pip install -U discord.py[voice]
+
+# Install youtube-dl
+pip install --upgrade youtube-dl
 
 # Run the bot
 python ytchan --token YOUR_TOKEN_HERE
