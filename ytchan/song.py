@@ -11,7 +11,12 @@ class YTDError(Exception):
 
 class Song:
     YTDL_OPTIONS = {
-        'format': 'bestaudio/best'
+        'format': 'bestaudio/best',
+        'quiet': True,
+        'no_warnings': True,
+        'nocheckcertificate': True,
+        'ignoreerrors': False,
+        'logtostderr': False
     }
 
     FFMPEG_OPTIONS = {

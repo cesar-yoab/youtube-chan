@@ -1,4 +1,5 @@
 import asyncio
+import itertools
 
 
 class SongQueue(asyncio.Queue):

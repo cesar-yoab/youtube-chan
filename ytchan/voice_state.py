@@ -86,3 +86,4 @@ class VoiceState:
         if self.voice:
             await self.voice.disconnect()
             self.voice = None
+            self.current = None
