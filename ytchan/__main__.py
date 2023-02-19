@@ -1,7 +1,7 @@
 import argparse
 import discord
 from discord.ext import commands
-from bot import YTChan
+from .bot import YTChan
 
 
 def run_ytchan(args):

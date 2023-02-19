@@ -1,5 +1,4 @@
 import asyncio
-import discord
 from songqueue import SongQueue
 from discord.ext import commands
 from async_timeout import timeout

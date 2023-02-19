@@ -1,8 +1,7 @@
 import discord
-import asyncio
 from discord.ext import commands
-from voice_state import VoiceState
-from song import Song, YTDError
+from .voice_state import VoiceState
+from .song import Song, YTDError
 
 # You should change this.
 # OUTPUT_EMOJIS = {'now_playing': ':ASgaztonrainbow:', 'not_in_vc': ':ASRemHmph:', 'error': ':Asevil:'}
