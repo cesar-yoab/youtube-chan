@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+#FROM ubuntu:20.04
+FROM python:3.11
 
 # This is because the build process was getting stuck
 # on the update of tzdata

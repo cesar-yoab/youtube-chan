@@ -1,7 +1,8 @@
 import argparse
 import discord
+import asyncio
 from discord.ext import commands
-from .bot import YTChan
+from bot import YTChan
 
 
 def run_ytchan(args):
@@ -10,10 +11,14 @@ def run_ytchan(args):
     Args:
         args: Should contain token and prefix.
     """
+    intents = discord.Intents.all()
+    intents.message_content = True
     client = commands.Bot(command_prefix=args.prefix,
-                          intents=discord.Intents.all())
+                          intents=intents)
 
-    client.add_cog(YTChan(client))
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.create_task(client.add_cog(YTChan(client)))
 
     @client.event
     async def on_ready():
@@ -32,7 +37,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--token", help="Discord bot token", required=True, metavar="[T]")
 parser.add_argument(
-    "--prefix", help="Set the command prefix to be used by the bot, defaults to '?'", default="?", metavar="[prefix]")
+    "--prefix", help="Set the command prefix to be used by the bot, defaults to '?'", default=">", metavar="[prefix]")
 
 args = parser.parse_args()
 

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from .voice_state import VoiceState
-from .song import Song, YTDError
+from voice_state import VoiceState
+from song import Song, YTDError
 
 # You should change this.
 # OUTPUT_EMOJIS = {'now_playing': ':ASgaztonrainbow:', 'not_in_vc': ':ASRemHmph:', 'error': ':Asevil:'}
@@ -30,7 +30,7 @@ class YTChan(commands.Cog):
         self.voice_state.stop()
         await ctx.send(f"> {OUTPUT_EMOJIS['error']} **An error occurred: {OUTPUT_EMOJIS['error']}**\n{str(error)}")
 
-    @commands.command(name="join", invoke_without_subcommand=True)
+    @commands.command(invoke_without_subcommand=True)
     async def join(self, ctx: commands.Context):
         """Join voice channel"""
         channel = ctx.author.voice.channel
@@ -41,7 +41,7 @@ class YTChan(commands.Cog):
 
         ctx.voice_state.voice = await channel.connect()
 
-    @commands.command(name="pause")
+    @commands.command()
     async def pause(self, ctx: commands.Context):
         """Pauses the player"""
         print("Player paused.")
@@ -49,7 +49,7 @@ class YTChan(commands.Cog):
             ctx.voice_state.voice.pause()
             await ctx.send("> **Player paused**")
 
-    @commands.command(name="resume")
+    @commands.command()
     async def resume(self, ctx: commands.Context):
         """Resumes the player if it was paused"""
         print("Player resumed")
@@ -57,7 +57,7 @@ class YTChan(commands.Cog):
             ctx.voice_state.voice.resume()
             await ctx.send("> **Resumed**")
 
-    @commands.command(name="stop")
+    @commands.command()
     async def stop(self, ctx: commands.Context):
         """Stops the player"""
         print("Player stopped")
@@ -67,7 +67,7 @@ class YTChan(commands.Cog):
             await ctx.voice_state.stop()
             await ctx.send("> **Player stopped and queue cleared**")
 
-    @commands.command(name="skip")
+    @commands.command()
     async def skip(self, ctx: commands.Context):
         """Skips the current playing video"""
         if not ctx.voice_state.is_playing:
@@ -76,7 +76,7 @@ class YTChan(commands.Cog):
         ctx.voice_state.skip()
         await ctx.message.add_reaction("✅")
 
-    @commands.command(name="suffle")
+    @commands.command()
     async def shuffle(self, ctx: commands.Context):
         """Shuffles the queue"""
         if not ctx.voice_state.is_playing:
@@ -88,7 +88,7 @@ class YTChan(commands.Cog):
         ctx.voice_state.songs.shuffle()
         await ctx.message.add_reaction('✅')
 
-    @commands.command(name="remove")
+    @commands.command()
     async def remove(self, ctx: commands.Context, index: int):
         """Removes video from queue at index"""
         if len(ctx.voice_state.songs) == 0:
@@ -99,7 +99,7 @@ class YTChan(commands.Cog):
         ctx.voice_state.songs.remove(index - 1)
         await ctx.message.add_reaction("✅")
 
-    @commands.command(name="queue")
+    @commands.command()
     async def queue(self, ctx: commands.Context, page: int = 1):
         """Shows all the videos in the queue"""
         import math
@@ -120,8 +120,8 @@ class YTChan(commands.Cog):
         embed.set_footer(text=f"Viewing page {page}/{pages}")
         await ctx.send(embed=embed)
 
-    @commands.command(name="commands")
-    async def _commands(self, ctx: commands.Context):
+    @commands.command()
+    async def show_commands(self, ctx: commands.Context):
         """Sends message with all the commands"""
         embed = discord.Embed(
             title="**Youtube Chan Commands**", color=discord.Color.blue())
@@ -146,7 +146,7 @@ class YTChan(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="play")
+    @commands.command()
     async def play(self, ctx: commands.Context, url: str):
         """Plays a song
         if there are songs in the queue the song will be queued.
